@@ -1,0 +1,62 @@
+<div class="preview-overlay" *ngIf="showPreview" (click)="closePreview()">
+  <div class="preview-content" (click)="$event.stopPropagation()">
+    <div class="preview-header">
+      <h2>Certificate Preview</h2>
+      <button class="close-btn" (click)="closePreview()">
+        <span class="material-icons">close</span>
+      </button>
+    </div>
+
+    <div class="certificate">
+      <div class="certificate-header">
+        <h1>Republic of the Philippines</h1>
+        <h2>Province of Sample Province</h2>
+        <h2>Municipality of Sample Municipality</h2>
+        <h2>Barangay Sample</h2>
+      </div>
+
+      <div class="certificate-title">
+        <h1>{{certificateData.type}}</h1>
+      </div>
+
+      <div class="certificate-body">
+        <p>TO WHOM IT MAY CONCERN:</p>
+        
+        <p class="certificate-content">
+          This is to certify that <strong>{{certificateData.requestedBy}}</strong>, 
+          {{certificateData.civilStatus}}, {{certificateData.yearOfResidency}} years resident of 
+          {{certificateData.address}}, Barangay Sample, is known to be of good moral character 
+          and law-abiding citizen of this Barangay.
+        </p>
+
+        <p class="certificate-content">
+          This certification is being issued upon the request of the above-named person for 
+          <strong>{{certificateData.purpose}}</strong>.
+        </p>
+
+        <p class="certificate-content" *ngIf="certificateData.additionalInfo">
+          Additional Information: {{certificateData.additionalInfo}}
+        </p>
+
+        <p class="certificate-date">
+          Issued this {{getCurrentDate()}} at Barangay Sample, Sample Municipality.
+        </p>
+      </div>
+
+      <div class="certificate-footer">
+        <div class="signature-section">
+          <div class="signature-line"></div>
+          <p class="official-name">HON. JUAN DELA CRUZ</p>
+          <p class="official-title">Barangay Captain</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="preview-actions">
+      <button class="print-btn" (click)="printCertificate()">
+        <span class="material-icons">print</span>
+        Print Certificate
+      </button>
+    </div>
+  </div>
+</div>

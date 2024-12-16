@@ -1,0 +1,53 @@
+<div class="add-official-container">
+  <header class="page-header">
+    <div class="header-content">
+      <button class="back-btn" (click)="goBack()">
+        <span class="material-icons">arrow_back</span>
+        Back to Officials
+      </button>
+      <h1>Add New Official</h1>
+    </div>
+  </header>
+
+  <div class="form-container">
+    <form (ngSubmit)="onSubmit()" #officialForm="ngForm">
+      <div class="form-section">
+        <div class="form-group">
+          <label>Full Name</label>
+          <input type="text" [(ngModel)]="officialData.name" name="name" required>
+        </div>
+
+        <div class="form-group">
+          <label>Position</label>
+          <select [(ngModel)]="officialData.position" name="position" required>
+            <option value="">Select Position</option>
+            <option *ngFor="let position of positions" [value]="position">{{position}}</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Contact Number</label>
+          <input type="tel" [(ngModel)]="officialData.contactNumber" name="contactNumber" required>
+        </div>
+
+        <div class="form-group">
+          <label>Email Address</label>
+          <input type="email" [(ngModel)]="officialData.email" name="email" required>
+        </div>
+
+        <div class="form-group">
+          <label>Term Duration</label>
+          <input type="text" [(ngModel)]="officialData.termStartToEnd" name="termStartToEnd" 
+                 placeholder="e.g., 2024-2027" required>
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button type="button" class="cancel-btn" (click)="goBack()">Cancel</button>
+        <button type="submit" class="submit-btn" [disabled]="!officialForm.form.valid">
+          Save Official
+        </button>
+      </div>
+    </form>
+  </div>
+</div> 

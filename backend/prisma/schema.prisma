@@ -1,0 +1,98 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(cuid())
+  email     String?  @unique
+  password  String
+  name      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Residents {
+  id            String   @id @default(cuid())
+  firstName     String
+  middleName    String?
+  lastName      String
+  age           Int
+  address       String
+  contactNumber String
+  status        String   @default("Active")
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+model houseHold {
+  id            String   @id @default(cuid())
+  houseHoldHead String
+  address       String
+  memberCount   Int
+  type          String
+  status        String   @default("Active")
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+model cerificates {
+  id              String   @id @default(cuid())
+  certificateType String
+  requestedBy     String
+  purpose         String
+  requestedDate   DateTime @default(now())
+  status          String   @default("Pending")
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+model blotter {
+  caseId       String   @id @default(cuid())
+  date         DateTime @default(now())
+  complaintant String
+  repondent    String
+  natureOfCase String
+  status       String   @default("Pending")
+}
+
+model barangayOfficials {
+  id             String   @id @default(cuid())
+  position       String
+  name           String
+  contactNumber  String
+  email          String
+  termStartToEnd String
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+}
+
+model projects {
+  id                 String   @id @default(cuid())
+  projectName        String
+  projectDescription String
+  projectStatus      String   @default("Pending")
+  projectBudget      Float
+  projectStartDate   DateTime
+  projectEndDate     DateTime
+  address            String
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+}
+
+model Announcement {
+  id             String   @id @default(uuid())
+  title          String
+  content        String
+  category       String
+  priority       Boolean  @default(false)
+  validUntil     DateTime
+  targetAudience String
+  status         String
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+}

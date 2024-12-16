@@ -1,0 +1,42 @@
+<div class="login-container">
+  <div class="title">
+    <h1><span class="bold">Barangay</span> Management</h1>
+    <h2>System</h2>
+  </div>
+
+  <div class="login-box">
+    <p class="sign-in-text">Sign in to start session</p>
+
+    <form (ngSubmit)="onSubmit()">
+      <input 
+        type="text" 
+        [(ngModel)]="username" 
+        name="username"
+        placeholder="Username"
+        class="input-field">
+
+      <input 
+        type="password" 
+        [(ngModel)]="password" 
+        name="password"
+        placeholder="Password"
+        class="input-field">
+
+      <div class="form-actions">
+        <label class="remember-me">
+          <input 
+            type="checkbox" 
+            [(ngModel)]="rememberMe" 
+            name="rememberMe">
+          Remember Me
+        </label>
+        
+        <button type="submit" class="sign-in-btn">Sign In</button>
+      </div>
+
+      <div class="links">
+        <a href="/forgot-password">Forgot Password?</a>
+      </div>
+    </form>
+  </div>
+</div>

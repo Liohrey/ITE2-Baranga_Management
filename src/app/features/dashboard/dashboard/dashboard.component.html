@@ -1,0 +1,59 @@
+<div class="dashboard-content">
+  <header class="page-header">
+    <div class="header-content">
+      <h1>Dashboard</h1>
+      <p class="subtitle">Overview of barangay activities</p>
+    </div>
+  </header>
+
+  <div class="stats-grid">
+    <div class="stat-card">
+      <div class="stat-icon">
+        <span class="material-icons">people</span>
+      </div>
+      <div class="stat-info">
+        <h3>Total Residents</h3>
+        <p class="stat-number">{{ dashboardStats.totalResidents }}</p>
+      </div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon">
+        <span class="material-icons">description</span>
+      </div>
+      <div class="stat-info">
+        <h3>Pending Documents</h3>
+        <p class="stat-number">{{ dashboardStats.pendingDocuments }}</p>
+      </div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon">
+        <span class="material-icons">gavel</span>
+      </div>
+      <div class="stat-info">
+        <h3>Today's Cases</h3>
+        <p class="stat-number">{{ dashboardStats.todaysCases }}</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="recent-activity">
+    <h2>Recent Announcements</h2>
+    <div class="activity-list">
+      <div class="activity-item" *ngFor="let announcement of dashboardStats.recentAnnouncements">
+        <div class="activity-icon">
+          <span class="material-icons">campaign</span>
+        </div>
+        <div class="activity-details">
+          <p class="activity-text">{{ announcement.title }}</p>
+          <p class="activity-time">{{ announcement.createdAt | date:'short' }}</p>
+        </div>
+      </div>
+      
+      <div class="activity-item" *ngIf="dashboardStats.recentAnnouncements.length === 0">
+        <div class="activity-details">
+          <p class="activity-text">No recent announcements</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

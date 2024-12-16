@@ -1,0 +1,47 @@
+<div class="cert-gen-container">
+  <header class="page-header">
+    <div class="header-content">
+      <button class="back-btn" (click)="goBack()">
+        <span class="material-icons">arrow_back</span>
+        Back to Certificates
+      </button>
+      <h1>Generate Certificate</h1>
+      <p class="subtitle">Create a new certificate request</p>
+    </div>
+  </header>
+
+  <div class="form-container">
+    <form (ngSubmit)="onSubmit()" #certForm="ngForm">
+      <div class="form-grid">
+        <div class="form-group">
+          <label>Certificate Type</label>
+          <select [(ngModel)]="certificateData.certificateType" name="certificateType" required>
+            <option value="">Select Certificate Type</option>
+            <option *ngFor="let type of certificateTypes" [value]="type">
+              {{type}}
+            </option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Requested By</label>
+          <input type="text" [(ngModel)]="certificateData.requestedBy" 
+                 name="requestedBy" required placeholder="Full Name">
+        </div>
+
+        <div class="form-group">
+          <label>Purpose</label>
+          <input type="text" [(ngModel)]="certificateData.purpose" 
+                 name="purpose" required placeholder="Purpose of Certificate">
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button type="button" class="cancel-btn" (click)="goBack()">Cancel</button>
+        <button type="submit" class="submit-btn" [disabled]="!certForm.form.valid">
+          Generate Certificate
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

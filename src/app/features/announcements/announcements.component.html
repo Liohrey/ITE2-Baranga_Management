@@ -1,0 +1,116 @@
+<div class="announcements-container">
+  <header class="page-header">
+    <div class="header-content">
+      <h1>Announcements</h1>
+      <p class="subtitle">Manage and publish barangay announcements</p>
+    </div>
+    <button class="add-btn" [routerLink]="['/announcements/add']">
+      <span class="material-icons">campaign</span>
+      New Announcement
+    </button>
+  </header>
+
+  <div class="search-filters">
+    <div class="search-input">
+      <span class="material-icons">search</span>
+      <input type="text" 
+             placeholder="Search announcements..."
+             (input)="onSearch($event)">
+    </div>
+  </div>
+
+  <div class="announcements-grid">
+    <div *ngFor="let announcement of filteredAnnouncements" 
+         class="announcement-card" 
+         [class.priority]="announcement.priority">
+      <div class="announcement-header">
+        <span *ngIf="announcement.priority" class="priority-badge">Priority</span>
+        <span class="date">{{announcement.createdAt | date}}</span>
+      </div>
+      <h3>{{announcement.title}}</h3>
+      <p class="announcement-content">
+        {{announcement.content}}
+      </p>
+      <div class="announcement-footer">
+        <div class="status">
+          <span class="material-icons">event</span>
+          <span>{{announcement.updatedAt | date:'short'}}</span>
+        </div>
+        <div class="actions">
+          <button class="icon-btn edit" (click)="onEdit(announcement)" title="Edit">
+            <span class="material-icons">edit</span>
+          </button>
+          <button class="icon-btn delete" 
+                  title="Delete" 
+                  (click)="deleteAnnouncement(announcement.id)">
+            <span class="material-icons">delete</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Edit Modal -->
+  <div class="modal-backdrop" *ngIf="editMode" (click)="closeEdit()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+      <header class="modal-header">
+        <h2>Edit Announcement</h2>
+        <button class="close-btn" (click)="closeEdit()">
+          <span class="material-icons">close</span>
+        </button>
+      </header>
+
+      <div class="modal-body">
+        <form (ngSubmit)="onSaveEdit()" #editForm="ngForm" *ngIf="selectedAnnouncement">
+          <div class="form-group">
+            <label>Title</label>
+            <input type="text" [(ngModel)]="selectedAnnouncement.title" name="title" required>
+          </div>
+
+          <div class="form-group">
+            <label>Content</label>
+            <textarea [(ngModel)]="selectedAnnouncement.content" name="content" rows="5" required></textarea>
+          </div>
+
+          <div class="form-group">
+            <label>Category</label>
+            <select [(ngModel)]="selectedAnnouncement.category" name="category" required>
+              <option *ngFor="let category of categories" [value]="category">{{category}}</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <div class="checkbox-group">
+              <input type="checkbox" [(ngModel)]="selectedAnnouncement.priority" name="priority" id="editPriority">
+              <label for="editPriority">Mark as Priority</label>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Valid Until</label>
+            <input type="date" [(ngModel)]="selectedAnnouncement.validUntil" name="validUntil">
+          </div>
+
+          <div class="form-group">
+            <label>Target Audience</label>
+            <input type="text" [(ngModel)]="selectedAnnouncement.targetAudience" name="targetAudience">
+          </div>
+
+          <div class="form-group">
+            <label>Status</label>
+            <select [(ngModel)]="selectedAnnouncement.status" name="status" required>
+              <option *ngFor="let status of statuses" [value]="status">{{status}}</option>
+            </select>
+          </div>
+
+          <div class="form-actions">
+            <button type="button" class="cancel-btn" (click)="closeEdit()">Cancel</button>
+            <button type="submit" class="submit-btn" [disabled]="!editForm.form.valid">
+              Save Changes
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

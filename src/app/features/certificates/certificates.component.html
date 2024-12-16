@@ -1,0 +1,159 @@
+<div class="certificates-container">
+  <header class="page-header">
+    <div class="header-content">
+      <h1>Certificate Management</h1>
+      <p class="subtitle">Process and track barangay certificates</p>
+    </div>
+    <button class="add-btn" [routerLink]="['/certificates/generate']">
+      <span class="material-icons">note_add</span>
+      New Certificate Request
+    </button>
+  </header>
+
+  <div class="search-filters">
+    <div class="search-input">
+      <span class="material-icons">search</span>
+      <input type="text" placeholder="Search by name, certificate type, or purpose..." (input)="onSearch($event)">
+    </div>
+    
+    <div class="filters">
+      <div class="filter-group">
+        <span class="material-icons">filter_list</span>
+        <select (change)="onStatusFilterChange($event)">
+          <option value="">All Status</option>
+          <option value="Pending">Pending</option>
+          <option value="Approved">Approved</option>
+          <option value="Rejected">Rejected</option>
+        </select>
+      </div>
+
+      <div class="filter-group">
+        <span class="material-icons">sort</span>
+        <select (change)="onSortChange($event)">
+          <option value="date">Sort by Date</option>
+          <option value="type">Sort by Type</option>
+          <option value="name">Sort by Name</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <div class="table-container">
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Certificate Type</th>
+          <th>Requested By</th>
+          <th>Purpose</th>
+          <th>Request Date</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let cert of filteredCertificates">
+          <td class="id-cell">#{{cert.id}}</td>
+          <td class="type-cell">{{cert.certificateType}}</td>
+          <td>{{cert.requestedBy}}</td>
+          <td>{{cert.purpose}}</td>
+          <td>{{cert.requestedDate | date:'mediumDate'}}</td>
+          <td>
+            <span class="status-badge" [ngClass]="cert.status.toLowerCase()">
+              {{cert.status}}
+            </span>
+          </td>
+          <td class="actions">
+            <button class="icon-btn view" title="View Details" (click)="viewCertificate(cert)">
+              <span class="material-icons">visibility</span>
+            </button>
+            <button class="icon-btn print" title="Print Certificate" (click)="printCertificate(cert)">
+              <span class="material-icons">print</span>
+            </button>
+            <button class="icon-btn edit" title="Edit" (click)="onEdit(cert)">
+              <span class="material-icons">edit</span>
+            </button>
+            <button class="icon-btn delete" title="Delete" (click)="deleteCertificate(cert.id)">
+              <span class="material-icons">delete</span>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="pagination">
+    <button class="page-btn" [disabled]="currentPage === 1">
+      <span class="material-icons">chevron_left</span>
+      Previous
+    </button>
+    <div class="page-info">
+      <span>Page {{currentPage}} of {{totalPages}}</span>
+      <select class="page-size">
+        <option value="10">10 per page</option>
+        <option value="25">25 per page</option>
+        <option value="50">50 per page</option>
+      </select>
+    </div>
+    <button class="page-btn" [disabled]="currentPage === totalPages">
+      Next
+      <span class="material-icons">chevron_right</span>
+    </button>
+  </div>
+
+  <!-- Edit Modal -->
+  <div class="modal-backdrop" *ngIf="editMode" (click)="closeEdit()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+      <header class="modal-header">
+        <h2>Edit Certificate Information</h2>
+        <button class="close-btn" (click)="closeEdit()">
+          <span class="material-icons">close</span>
+        </button>
+      </header>
+
+      <div class="modal-body">
+        <form (ngSubmit)="onSaveEdit()" #editForm="ngForm" *ngIf="selectedCertificate">
+          <div class="form-grid">
+            <div class="form-group">
+              <label>Certificate Type</label>
+              <select [(ngModel)]="selectedCertificate.certificateType" 
+                      name="certificateType" required>
+                <option *ngFor="let type of certificateTypes" [value]="type">
+                  {{type}}
+                </option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label>Status</label>
+              <select [(ngModel)]="selectedCertificate.status" name="status" required>
+                <option value="Pending">Pending</option>
+                <option value="Approved">Approved</option>
+                <option value="Rejected">Rejected</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Requested By</label>
+            <input type="text" [(ngModel)]="selectedCertificate.requestedBy" 
+                   name="requestedBy" required>
+          </div>
+
+          <div class="form-group">
+            <label>Purpose</label>
+            <input type="text" [(ngModel)]="selectedCertificate.purpose" 
+                   name="purpose" required>
+          </div>
+
+          <div class="form-actions">
+            <button type="button" class="cancel-btn" (click)="closeEdit()">Cancel</button>
+            <button type="submit" class="submit-btn" [disabled]="!editForm.form.valid">
+              Save Changes
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

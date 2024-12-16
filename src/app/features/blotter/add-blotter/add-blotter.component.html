@@ -1,0 +1,42 @@
+<div class="add-blotter-container">
+  <header class="page-header">
+    <div class="header-content">
+      <button class="back-btn" (click)="goBack()">
+        <span class="material-icons">arrow_back</span>
+        Back to Blotter Records
+      </button>
+      <h1>New Blotter Entry</h1>
+      <p class="subtitle">Enter incident details</p>
+    </div>
+  </header>
+
+  <div class="form-container">
+    <form (ngSubmit)="onSubmit()" #blotterForm="ngForm">
+      <div class="form-section">
+        <div class="form-group">
+          <label>Complainant</label>
+          <input type="text" [(ngModel)]="blotterData.complaintant" name="complaintant" required>
+        </div>
+
+        <div class="form-group">
+          <label>Respondent</label>
+          <input type="text" [(ngModel)]="blotterData.repondent" name="repondent" required>
+        </div>
+
+        <div class="form-group">
+          <label>Nature of Case</label>
+          <select [(ngModel)]="blotterData.natureOfCase" name="natureOfCase" required>
+            <option value="">Select Case Type</option>
+            <option *ngFor="let type of caseTypes" [value]="type">{{type}}</option>
+          </select>
+        </div>
+
+        <div class="form-actions">
+          <button type="submit" class="submit-btn" [disabled]="!blotterForm.form.valid">
+            Submit Blotter
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

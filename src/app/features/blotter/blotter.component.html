@@ -1,0 +1,109 @@
+<div class="blotter-container">
+  <header class="page-header">
+    <div class="header-content">
+      <h1>Blotter Records</h1>
+      <p class="subtitle">Manage and track incident reports in the barangay</p>
+    </div>
+    <button class="add-btn" [routerLink]="['/blotter/add']">
+      <span class="material-icons">add_circle</span>
+      New Blotter Entry
+    </button>
+  </header>
+
+  <div class="search-filters">
+    <div class="search-input">
+      <span class="material-icons">search</span>
+      <input 
+        type="text" 
+        [value]="searchTerm"
+        (input)="onSearch($event)"
+        placeholder="Search by case number, complainant, or respondent...">
+    </div>
+  </div>
+
+  <div class="table-container">
+    <table>
+      <thead>
+        <tr>
+          <th>Case ID</th>
+          <th>Date Filed</th>
+          <th>Complainant</th>
+          <th>Respondent</th>
+          <th>Nature of Case</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let blotter of filteredBlotters">
+          <td>{{blotter.caseId}}</td>
+          <td>{{blotter.date | date:'mediumDate'}}</td>
+          <td>{{blotter.complaintant}}</td>
+          <td>{{blotter.repondent}}</td>
+          <td>{{blotter.natureOfCase}}</td>
+          <td>
+            <span class="status-badge" [class]="blotter.status.toLowerCase()">
+              {{blotter.status}}
+            </span>
+          </td>
+          <td class="actions">
+            <button class="icon-btn edit" (click)="onEdit(blotter)">
+              <span class="material-icons">edit</span>
+            </button>
+            <button class="icon-btn delete" (click)="deleteBlotter(blotter.caseId)">
+              <span class="material-icons">delete</span>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Edit Modal -->
+  <div class="modal-overlay" *ngIf="editMode && selectedBlotter">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>Edit Blotter Record</h2>
+        <button class="close-btn" (click)="closeEdit()">
+          <span class="material-icons">close</span>
+        </button>
+      </div>
+
+      <form #editForm="ngForm" (ngSubmit)="onSaveEdit()">
+        <div class="form-group">
+          <label>Complainant</label>
+          <input type="text" [(ngModel)]="selectedBlotter.complaintant" name="complaintant" required>
+        </div>
+
+        <div class="form-group">
+          <label>Respondent</label>
+          <input type="text" [(ngModel)]="selectedBlotter.repondent" name="repondent" required>
+        </div>
+
+        <div class="form-group">
+          <label>Nature of Case</label>
+          <select [(ngModel)]="selectedBlotter.natureOfCase" name="natureOfCase" required>
+            <option *ngFor="let type of caseTypes" [value]="type">{{type}}</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Status</label>
+          <select [(ngModel)]="selectedBlotter.status" name="status" required>
+            <option value="Pending">Pending</option>
+            <option value="Ongoing">Ongoing</option>
+            <option value="Resolved">Resolved</option>
+            <option value="Dismissed">Dismissed</option>
+          </select>
+        </div>
+
+        <div class="form-actions">
+          <button type="button" class="cancel-btn" (click)="closeEdit()">Cancel</button>
+          <button type="submit" class="submit-btn" [disabled]="!editForm.form.valid">
+            Save Changes
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

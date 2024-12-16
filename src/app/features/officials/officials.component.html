@@ -1,0 +1,107 @@
+<div class="officials-container">
+  <header class="page-header">
+    <div class="header-content">
+      <h1>Barangay Officials</h1>
+      <p class="subtitle">Manage and view barangay officials</p>
+    </div>
+    <button class="add-btn" [routerLink]="['/officials/add']">
+      <span class="material-icons">person_add</span>
+      Add New Official
+    </button>
+  </header>
+
+  <div class="search-filters">
+    <div class="search-input">
+      <span class="material-icons">search</span>
+      <input 
+        type="text" 
+        (input)="onSearch($event)"
+        placeholder="Search by name, position...">
+    </div>
+  </div>
+
+  <div class="table-container">
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Position</th>
+          <th>Contact Number</th>
+          <th>Email</th>
+          <th>Term</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let official of filteredOfficials">
+          <td class="id-cell">#{{official.id}}</td>
+          <td class="name-cell">{{official.name}}</td>
+          <td>{{official.position}}</td>
+          <td>{{official.contactNumber}}</td>
+          <td>{{official.email}}</td>
+          <td>{{official.termStartToEnd}}</td>
+          <td class="actions">
+            <button class="icon-btn edit" (click)="onEdit(official)" title="Edit">
+              <span class="material-icons">edit</span>
+            </button>
+            <button class="icon-btn delete" (click)="deleteOfficial(official.id)" title="Delete">
+              <span class="material-icons">delete</span>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Edit Modal -->
+  <div class="modal-backdrop" *ngIf="editMode" (click)="closeEdit()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+      <header class="modal-header">
+        <h2>Edit Official Information</h2>
+        <button class="close-btn" (click)="closeEdit()">
+          <span class="material-icons">close</span>
+        </button>
+      </header>
+
+      <div class="modal-body">
+        <form (ngSubmit)="onSaveEdit()" #editForm="ngForm" *ngIf="selectedOfficial">
+          <div class="form-group">
+            <label>Full Name</label>
+            <input type="text" [(ngModel)]="selectedOfficial.name" name="name" required>
+          </div>
+
+          <div class="form-group">
+            <label>Position</label>
+            <select [(ngModel)]="selectedOfficial.position" name="position" required>
+              <option value="">Select Position</option>
+              <option *ngFor="let position of positions" [value]="position">{{position}}</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label>Contact Number</label>
+            <input type="tel" [(ngModel)]="selectedOfficial.contactNumber" name="contactNumber" required>
+          </div>
+
+          <div class="form-group">
+            <label>Email Address</label>
+            <input type="email" [(ngModel)]="selectedOfficial.email" name="email" required>
+          </div>
+
+          <div class="form-group">
+            <label>Term Duration</label>
+            <input type="text" [(ngModel)]="selectedOfficial.termStartToEnd" name="termStartToEnd" required>
+          </div>
+
+          <div class="form-actions">
+            <button type="button" class="cancel-btn" (click)="closeEdit()">Cancel</button>
+            <button type="submit" class="submit-btn" [disabled]="!editForm.form.valid">
+              Save Changes
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

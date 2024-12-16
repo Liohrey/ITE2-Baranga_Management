@@ -1,0 +1,143 @@
+<div class="layout-container">
+    <button class="hamburger-btn" (click)="toggleMobileMenu()">
+      <span class="material-icons">menu</span>
+    </button>
+  
+    <nav class="sidebar" [class.collapsed]="isSidebarCollapsed" [class.mobile-view]="isMobileView">
+      <div class="sidebar-header">
+        <h2 [class.hidden]="isSidebarCollapsed">Barangay Management</h2>
+        <button class="collapse-btn" (click)="toggleSidebar()">
+          <span class="material-icons">menu</span>
+        </button>
+      </div>
+      <ul class="nav-links">
+        <li routerLinkActive="active">
+          <a routerLink="/dashboard">
+            <span class="material-icons" 
+                  [matTooltip]="isSidebarCollapsed ? 'Dashboard' : ''"
+                  matTooltipPosition="right"
+                  matTooltipClass="sidebar-tooltip"
+                  [matTooltipShowDelay]="tooltipDelay.show"
+                  [matTooltipHideDelay]="tooltipDelay.hide">
+              dashboard
+            </span>
+            <span class="link-text" [class.hidden]="isSidebarCollapsed">Dashboard</span>
+          </a>
+        </li>
+        <li routerLinkActive="active">
+          <a routerLink="/residents">
+            <span class="material-icons" 
+                  [matTooltip]="isSidebarCollapsed ? 'Residents' : ''"
+                  matTooltipPosition="right"
+                  matTooltipClass="sidebar-tooltip"
+                  [matTooltipShowDelay]="tooltipDelay.show"
+                  [matTooltipHideDelay]="tooltipDelay.hide">
+              people
+            </span>
+            <span class="link-text" [class.hidden]="isSidebarCollapsed">Residents</span>
+          </a>
+        </li>
+        <li routerLinkActive="active">
+          <a routerLink="/households">
+            <span class="material-icons" 
+                  [matTooltip]="isSidebarCollapsed ? 'Households' : ''"
+                  matTooltipPosition="right"
+                  matTooltipClass="sidebar-tooltip"
+                  [matTooltipShowDelay]="tooltipDelay.show"
+                  [matTooltipHideDelay]="tooltipDelay.hide">
+              home
+            </span>
+            <span class="link-text" [class.hidden]="isSidebarCollapsed">Households</span>
+          </a>
+        </li>
+        <li routerLinkActive="active">
+          <a routerLink="/certificates">
+            <span class="material-icons" 
+                  [matTooltip]="isSidebarCollapsed ? 'Certificates' : ''"
+                  matTooltipPosition="right"
+                  matTooltipClass="sidebar-tooltip"
+                  [matTooltipShowDelay]="tooltipDelay.show"
+                  [matTooltipHideDelay]="tooltipDelay.hide">
+              description
+            </span>
+            <span class="link-text" [class.hidden]="isSidebarCollapsed">Certificates</span>
+          </a>
+        </li>
+        <li routerLinkActive="active">
+          <a routerLink="/blotter">
+            <span class="material-icons" 
+                  [matTooltip]="isSidebarCollapsed ? 'Blotter Records' : ''"
+                  matTooltipPosition="right"
+                  matTooltipClass="sidebar-tooltip"
+                  [matTooltipShowDelay]="tooltipDelay.show"
+                  [matTooltipHideDelay]="tooltipDelay.hide">
+              report
+            </span>
+            <span class="link-text" [class.hidden]="isSidebarCollapsed">Blotter Records</span>
+          </a>
+        </li>
+        <li routerLinkActive="active">
+          <a routerLink="/officials">
+            <span class="material-icons" 
+                  [matTooltip]="isSidebarCollapsed ? 'Barangay Officials' : ''"
+                  matTooltipPosition="right"
+                  matTooltipClass="sidebar-tooltip"
+                  [matTooltipShowDelay]="tooltipDelay.show"
+                  [matTooltipHideDelay]="tooltipDelay.hide">
+              groups
+            </span>
+            <span class="link-text" [class.hidden]="isSidebarCollapsed">Barangay Officials</span>
+          </a>
+        </li>
+        <li routerLinkActive="active">
+          <a routerLink="/projects">
+            <span class="material-icons" 
+                  [matTooltip]="isSidebarCollapsed ? 'Projects' : ''"
+                  matTooltipPosition="right"
+                  matTooltipClass="sidebar-tooltip"
+                  [matTooltipShowDelay]="tooltipDelay.show"
+                  [matTooltipHideDelay]="tooltipDelay.hide">
+              construction
+            </span>
+            <span class="link-text" [class.hidden]="isSidebarCollapsed">Projects</span>
+          </a>
+        </li>
+        <li routerLinkActive="active">
+          <a routerLink="/announcements">
+            <span class="material-icons" 
+                  [matTooltip]="isSidebarCollapsed ? 'Announcements' : ''"
+                  matTooltipPosition="right"
+                  matTooltipClass="sidebar-tooltip"
+                  [matTooltipShowDelay]="tooltipDelay.show"
+                  [matTooltipHideDelay]="tooltipDelay.hide">
+              campaign
+            </span>
+            <span class="link-text" [class.hidden]="isSidebarCollapsed">Announcements</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
+  
+    <div class="main-wrapper" [class.expanded]="isSidebarCollapsed">
+      <header class="top-bar">
+        <div class="welcome-text">
+          Welcome, {{username}}
+        </div>
+        <div class="actions">
+          <button class="logout-btn">
+            <span class="material-icons">logout</span>
+            Logout
+          </button>
+        </div>
+      </header>
+  
+      <main class="main-content">
+        <router-outlet></router-outlet>
+      </main>
+    </div>
+  
+    <div class="sidebar-overlay" 
+         [class.active]="isMobileView" 
+         (click)="toggleMobileMenu()">
+    </div>
+</div>

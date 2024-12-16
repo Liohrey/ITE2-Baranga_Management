@@ -1,0 +1,34 @@
+<div class="admin-login-container">
+  <div class="title">
+    <h1><span class="bold">Admin</span> Portal</h1>
+    <h2>Barangay Management System</h2>
+  </div>
+
+  <div class="login-box">
+    <p class="sign-in-text">Administrator Access Only</p>
+
+    <form (ngSubmit)="onSubmit()">
+      <input 
+        type="text" 
+        [(ngModel)]="username" 
+        name="username"
+        placeholder="Admin Username"
+        class="input-field">
+
+      <input 
+        type="password" 
+        [(ngModel)]="password" 
+        name="password"
+        placeholder="Admin Password"
+        class="input-field">
+
+      <div class="form-actions">
+        <button type="submit" class="sign-in-btn">Access Portal</button>
+      </div>
+
+      <div class="links">
+        <a href="/login">Return to Regular Login</a>
+      </div>
+    </form>
+  </div>
+</div>

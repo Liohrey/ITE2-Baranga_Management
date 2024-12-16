@@ -1,0 +1,121 @@
+<div class="projects-container">
+  <header class="page-header">
+    <div class="header-content">
+      <h1>Projects</h1>
+      <p class="subtitle">Manage and track barangay development projects</p>
+    </div>
+    <button class="add-btn" [routerLink]="['/projects/add']">
+      <span class="material-icons">add_circle</span>
+      New Project
+    </button>
+  </header>
+
+  <div class="search-filters">
+    <div class="search-input">
+      <span class="material-icons">search</span>
+      <input type="text" 
+             placeholder="Search projects by name, location, or status..."
+             (input)="onSearch($event)">
+    </div>
+  </div>
+
+  <div class="projects-grid">
+    <div class="project-card" *ngFor="let project of filteredProjects">
+      <div class="project-header">
+        <span class="project-badge" [ngClass]="project.projectStatus.toLowerCase()">
+          {{project.projectStatus}}
+        </span>
+        <div class="project-actions">
+          <button class="icon-btn edit" (click)="onEdit(project)" title="Edit">
+            <span class="material-icons">edit</span>
+          </button>
+          <button class="icon-btn delete" (click)="deleteProject(project.id)" title="Delete">
+            <span class="material-icons">delete</span>
+          </button>
+        </div>
+      </div>
+      
+      <h3 class="project-title">{{project.projectName}}</h3>
+      <p class="project-description">{{project.projectDescription}}</p>
+      
+      <div class="project-details">
+        <div class="detail-item">
+          <span class="material-icons">calendar_today</span>
+          <span>{{project.projectStartDate | date}} - {{project.projectEndDate | date}}</span>
+        </div>
+        <div class="detail-item">
+          <span class="material-icons">location_on</span>
+          <span>{{project.address}}</span>
+        </div>
+        <div class="detail-item">
+          <span class="material-icons">payments</span>
+          <span>₱{{project.projectBudget | number:'1.0-0'}}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Edit Modal -->
+  <div class="modal-backdrop" *ngIf="editMode">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+      <header class="modal-header">
+        <h2>Edit Project</h2>
+        <button class="close-btn" (click)="closeEdit()">
+          <span class="material-icons">close</span>
+        </button>
+      </header>
+
+      <div class="modal-body">
+        <form (ngSubmit)="onSaveEdit()" #editForm="ngForm" *ngIf="selectedProject">
+          <div class="form-group">
+            <label>Project Name</label>
+            <input type="text" [(ngModel)]="selectedProject.projectName" name="projectName" required>
+          </div>
+
+          <div class="form-group">
+            <label>Description</label>
+            <textarea [(ngModel)]="selectedProject.projectDescription" name="projectDescription" rows="3" required></textarea>
+          </div>
+
+          <div class="form-group">
+            <label>Status</label>
+            <select [(ngModel)]="selectedProject.projectStatus" name="projectStatus" required>
+              <option value="Pending">Pending</option>
+              <option value="Ongoing">Ongoing</option>
+              <option value="Completed">Completed</option>
+              <option value="Cancelled">Cancelled</option>
+              <option value="On Hold">On Hold</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label>Budget</label>
+            <input type="number" [(ngModel)]="selectedProject.projectBudget" name="projectBudget" required>
+          </div>
+
+          <div class="form-group">
+            <label>Start Date</label>
+            <input type="date" [(ngModel)]="selectedProject.projectStartDate" name="projectStartDate" required>
+          </div>
+
+          <div class="form-group">
+            <label>End Date</label>
+            <input type="date" [(ngModel)]="selectedProject.projectEndDate" name="projectEndDate" required>
+          </div>
+
+          <div class="form-group">
+            <label>Address</label>
+            <input type="text" [(ngModel)]="selectedProject.address" name="address" required>
+          </div>
+
+          <div class="form-actions">
+            <button type="button" class="cancel-btn" (click)="closeEdit()">Cancel</button>
+            <button type="submit" class="submit-btn" [disabled]="!editForm.form.valid">
+              Save Changes
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

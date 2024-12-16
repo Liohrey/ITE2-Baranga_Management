@@ -1,0 +1,105 @@
+<div class="residents-container">
+  <header class="page-header">
+    <div class="header-content">
+      <h1>Residents Management</h1>
+      <p class="subtitle">Manage and track barangay residents</p>
+    </div>
+    <button class="add-btn" [routerLink]="['/residents/add']">
+      <span class="material-icons">person_add</span>
+      Add New Resident
+    </button>
+  </header>
+
+  <div class="search-filters">
+    <div class="search-input">
+      <span class="material-icons">search</span>
+      <input 
+        type="text" 
+        placeholder="Search by name, address, or contact number..."
+        (input)="onSearch($event)"
+      >
+    </div>
+    
+    <div class="filters">
+      <div class="filter-group">
+        <span class="material-icons">filter_list</span>
+        <select (change)="onStatusFilterChange($event)">
+          <option value="all">All Status</option>
+          <option value="active">Active</option>
+          <option value="inactive">Inactive</option>
+        </select>
+      </div>
+
+      <div class="filter-group">
+        <span class="material-icons">sort</span>
+        <select (change)="onSortChange($event)">
+          <option value="name">Sort by Name</option>
+          <option value="age">Sort by Age</option>
+          <option value="status">Sort by Status</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <div class="table-container">
+    <table class="residents-table">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Age</th>
+          <th>Address</th>
+          <th>Contact</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let resident of filteredResidents">
+          <td>{{resident.firstName}} {{resident.middleName}} {{resident.lastName}}</td>
+          <td>{{resident.age}}</td>
+          <td>{{resident.address}}</td>
+          <td>{{resident.contactNumber}}</td>
+          <td>
+            <span class="status-badge" [class.active]="resident.status === 'Active'">
+              {{resident.status}}
+            </span>
+          </td>
+          <td class="actions">
+            <button class="icon-btn edit" title="Edit" (click)="openEditModal(resident)">
+              <span class="material-icons">edit</span>
+            </button>
+            <button class="icon-btn delete" title="Delete" (click)="deleteResident(resident.id)">
+              <span class="material-icons">delete</span>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="pagination">
+    <button class="page-btn" [disabled]="currentPage === 1">
+      <span class="material-icons">chevron_left</span>
+      Previous
+    </button>
+    <div class="page-info">
+      <span>Page {{currentPage}} of {{totalPages}}</span>
+      <select class="page-size">
+        <option value="10">10 per page</option>
+        <option value="25">25 per page</option>
+        <option value="50">50 per page</option>
+      </select>
+    </div>
+    <button class="page-btn" [disabled]="currentPage === totalPages">
+      Next
+      <span class="material-icons">chevron_right</span>
+    </button>
+  </div>
+
+  <app-edit-resident-modal
+    [isOpen]="isEditModalOpen"
+    [resident]="selectedResident"
+    (closeModal)="closeEditModal()"
+    (saveChanges)="handleSaveChanges($event)">
+  </app-edit-resident-modal>
+</div>
